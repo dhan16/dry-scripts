@@ -30,3 +30,4 @@
 
 #### Python project with cmake
     1. setup.py in https://github.com/dhan16opm/libecl
+    2. https://github.com/pybind/cmake_example
