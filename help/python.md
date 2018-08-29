@@ -26,6 +26,7 @@
     1. Change version in setup.py
     2. python3 setup.py sdist bdist_wheel
     3. twine upload dist/*
+    4. Test that uploaded dist compiles on download: pip install  --no-binary :all: packagename
 
 #### Python project with cmake
     1. setup.py in https://github.com/dhan16opm/libecl
