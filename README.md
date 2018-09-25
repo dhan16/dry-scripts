@@ -7,7 +7,7 @@ Utility scripts and environment setup
 * git config --global core.autocrlf input
 * mkdir -p ~/work/dry
 * git clone into ~/work/dry
-* add to .bash_profile: source ~/work/dry/dry_scripts/src/scripts/finish.sh
+* add to .bash_profile: source ~/work/dry/dry-scripts/src/scripts/finish.sh
 
 # Manual
 
