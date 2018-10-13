@@ -13,10 +13,14 @@ function showhelp()
 function do-subdirs() {
     local OPTIND o
     local subdirs=()
-    while getopts ":d:" o; do
+    local ignore_errors=0
+    while getopts ":d:f" o; do
         case "${o}" in
             d)
                 subdirs+=("${OPTARG}")
+                ;;
+            f)
+                ignore_errors=1
                 ;;
             *)
                 echo "Unimplemented option chosen."
@@ -41,8 +45,10 @@ function do-subdirs() {
         echo ================================ $subdir ================================
         cd $subdir && $cmd
         if [ ! $? -eq 0 ]; then
-            cd ..
-            return
+            if [[ ignore_errors -eq 0 ]]; then
+                cd ..
+                return
+            fi
         fi
         cd ..
     done
