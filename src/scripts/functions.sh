@@ -12,11 +12,11 @@ function showhelp()
 
 function do-subdirs() {
     local OPTIND o
-    local subdirs=`ls -d */ | grep "^$cur" | paste -sd " " -`
+    local subdirs=()
     while getopts ":d:" o; do
         case "${o}" in
             d)
-                subdirs="${OPTARG}"
+                subdirs+=("${OPTARG}")
                 ;;
             *)
                 echo "Unimplemented option chosen."
@@ -25,14 +25,20 @@ function do-subdirs() {
         esac
     done
     shift $(($OPTIND - 1))
-
     cmd="$@"
+
+    if [ ${#subdirs[@]} -eq 0 ]; then
+        subdirs=`ls -d */ | grep "^$cur" | paste -sd " " -`
+    fi
+    echo cmd:$cmd SUBDIRS: ${subdirs[@]}
+
     if [[ -z "$cmd" ]]; then
+        echo "Nothing to run"
         return
     fi
 
     for subdir in $subdirs; do
-        echo ================================ RUNNING IN SUBDIR $subdir: $cmd...  ================================
+        echo ================================ $subdir ================================
         cd $subdir && $cmd
         if [ ! $? -eq 0 ]; then
             cd ..
