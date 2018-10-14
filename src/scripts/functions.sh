@@ -10,14 +10,20 @@ function showhelp()
     cat $DRY_SCRIPTS/help/$1
 }
 
+_dryscripts_run()
+{
+    echo $@
+    bash -c "$@"
+}
+
 function do-subdirs() {
     local OPTIND o
-    local subdirs=()
+    local cmd=""
     local ignore_errors=0
-    while getopts ":d:f" o; do
+    while getopts ":c:f" o; do
         case "${o}" in
-            d)
-                subdirs+=("${OPTARG}")
+            c)
+                cmd+="${OPTARG}"
                 ;;
             f)
                 ignore_errors=1
@@ -29,21 +35,24 @@ function do-subdirs() {
         esac
     done
     shift $(($OPTIND - 1))
-    cmd="$@"
+    subdirs=("$@")
 
+    echo ${#subdirs[@]}
     if [ ${#subdirs[@]} -eq 0 ]; then
         subdirs=`ls -d */ | grep "^$cur" | paste -sd " " -`
     fi
-    echo cmd:$cmd SUBDIRS: ${subdirs[@]}
+    echo cmd:$cmd
+    echo dirs: ${subdirs[@]}
 
     if [[ -z "$cmd" ]]; then
         echo "Nothing to run"
         return
     fi
 
-    for subdir in $subdirs; do
+    for subdir in "${subdirs[@]}"; do
         echo ================================ $subdir ================================
-        cd $subdir && $cmd
+        cd $subdir || return
+        _dryscripts_run "$cmd"
         if [ ! $? -eq 0 ]; then
             if [[ ignore_errors -eq 0 ]]; then
                 cd ..
