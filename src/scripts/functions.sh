@@ -16,6 +16,16 @@ _dryscripts_run()
     bash -c "$@"
 }
 
+dryscripts_is_dryrun=0
+_dryscripts_bashrun()
+{
+    echo $@
+    if [[ dryscripts_is_dryrun -eq 0 ]];
+    then
+        $@
+    fi
+}
+
 do-subdirs-usage()
 {
   printf "Usage: do-subdirs -c <command> -f <ignore errors> <subdirs>\n"
@@ -78,4 +88,5 @@ function _dry-complete-init()
     complete -W "$words" showhelp
 }
 
+export -f _dryscripts_bashrun
 _dry-complete-init
