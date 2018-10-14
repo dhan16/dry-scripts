@@ -5,7 +5,7 @@ finish-bash()
     source ~/.bash_profile
 }
 
-function showhelp() 
+showhelp()
 {
     cat $DRY_SCRIPTS/help/$1
 }
@@ -16,14 +16,24 @@ _dryscripts_run()
     bash -c "$@"
 }
 
-function do-subdirs() {
+do-subdirs-usage()
+{
+  printf "Usage: do-subdirs -c <command> -f <ignore errors> <subdirs>\n"
+  printf "[-h <help>]\n" 1>&2;
+}
+
+do-subdirs() {
     local OPTIND o
     local cmd=""
     local ignore_errors=0
-    while getopts ":c:f" o; do
+    while getopts ":hc:f" o; do
         case "${o}" in
+            h)
+                do-subdirs-usage
+                return
+                ;;
             c)
-                cmd+="${OPTARG}"
+                cmd="${OPTARG}"
                 ;;
             f)
                 ignore_errors=1
@@ -37,12 +47,11 @@ function do-subdirs() {
     shift $(($OPTIND - 1))
     subdirs=("$@")
 
-    echo ${#subdirs[@]}
     if [ ${#subdirs[@]} -eq 0 ]; then
-        subdirs=`ls -d */ | grep "^$cur" | paste -sd " " -`
+        subdirs=(`ls -d */ | grep "^$cur" | paste -sd " " -`)
     fi
     echo cmd:$cmd
-    echo dirs: ${subdirs[@]}
+    echo ${#subdirs[@]} dirs: ${subdirs[@]}
 
     if [[ -z "$cmd" ]]; then
         echo "Nothing to run"
