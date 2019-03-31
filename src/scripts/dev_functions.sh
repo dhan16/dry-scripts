@@ -4,7 +4,6 @@ export INSTALL_ROOT=$HOME/install
 cmake_opts=""
 cmake_opts="$cmake_opts -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT -DCMAKE_PREFIX_PATH=$INSTALL_ROOT"
 cmake_opts="$cmake_opts -DCMAKE_BUILD_TYPE=Debug"
-cmake_opts="$cmake_opts -G Ninja"
 export MAKEW_CMAKE_OPTIONS="$cmake_opts"
 export MAKEW_MAKE_OPTIONS="-j 4"
 

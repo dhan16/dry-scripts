@@ -10,5 +10,7 @@
     docker rmi $(docker images -f dangling=true -q)
     docker volume rm $(docker volume ls -f dangling=true -q)
 
+4. docker system prune -a
+
 ### Notes
     1. On Macs, this seems to take a lot of disk space: ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/Docker.qcow2
