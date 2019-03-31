@@ -42,6 +42,8 @@ The .git/config file in a particular clone of a repository is local to that clon
 * Set github password on MacOS
     1. https://help.github.com/articles/caching-your-github-password-in-git/
     2. https://help.github.com/articles/updating-credentials-from-the-osx-keychain/
+* Use github from command line with 2 factor auth
+    https://help.github.com/en/articles/accessing-github-using-two-factor-authentication
 
 ### Git submodules
     * Get submodules into existing git clone
